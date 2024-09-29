@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 import { CiEdit } from "react-icons/ci";
 import { FaEdit } from "react-icons/fa";
+import Loading from "../../UI/Loading";
 
 const RESEND_TIME = 90;
 
@@ -14,22 +15,26 @@ function CheckOTPForm({ phoneNumber, onBack, onResendOtp, otpResponse }) {
   const [otp, setOtp] = useState("");
   const [time, setTime] = useState(RESEND_TIME);
   const navigate = useNavigate();
-  const { isPending, error, data, mutateAsync } = useMutation({
+  const { isPending, mutateAsync } = useMutation({
     mutationFn: checkOtp,
   });
 
   const checkOtpHandler = async (e) => {
     e.preventDefault();
     try {
-      const { user, message } = await mutateAsync({ phoneNumber, otp: "5545" });
+      const { user, message } = await mutateAsync({ phoneNumber, otp });
       toast.success(message);
-      if (user.active) {
-        // push to panel based on role.
-        if (user.role === "OWNER") navigate("/owner");
-        if (user.role === "FREELANCER") navigate("/freelancer");
-      } else {
-        navigate("/complete-profile");
+      console.log(user);
+
+      if (!user.isActive) return navigate("/complete-profile");
+      if (user.status !== 2) {
+        navigate("/");
+        toast("پروفایل شما در انتظار تایید می باشد.", { icon: "⏳" });
+        return;
       }
+
+      if (user.role === "OWNER") return navigate("/owner");
+      if (user.role === "FREELANCER") return navigate("/freelancer");
     } catch (error) {
       toast.error(error.message);
     }
@@ -83,7 +88,13 @@ function CheckOTPForm({ phoneNumber, onBack, onResendOtp, otpResponse }) {
             borderRadius: "0.5rem",
           }}
         />
-        <button className="btn btn--primary w-full">تایید</button>
+        {isPending ? (
+          <Loading />
+        ) : (
+          <button type="submit" className="btn btn--primary w-full">
+            تایید
+          </button>
+        )}
       </form>
     </div>
   );

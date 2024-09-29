@@ -54,4 +54,9 @@ export default {
       },
     },
   },
+  plugins: [
+    require("@tailwindcss/forms")({
+      strategy: "class", // only generate classes
+    }),
+  ],
 };

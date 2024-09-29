@@ -54,7 +54,11 @@ function AuthContainer() {
     }
   };
 
-  return <div className="w-full sm:max-w-sm">{renderStep()}</div>;
+  return (
+    <div className="flex justify-center pt-10">
+      <div className="w-full sm:max-w-sm">{renderStep()}</div>
+    </div>
+  );
 }
 
 export default AuthContainer;
