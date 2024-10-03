@@ -1,5 +1,5 @@
 function Home() {
-  return <div>Home page !!</div>;
+  return <div className="container xl:max-w-screen-xl">Home page !!</div>;
 }
 
 export default Home;
