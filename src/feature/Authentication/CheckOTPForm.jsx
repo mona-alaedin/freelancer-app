@@ -24,7 +24,6 @@ function CheckOTPForm({ phoneNumber, onBack, onResendOtp, otpResponse }) {
     try {
       const { user, message } = await mutateAsync({ phoneNumber, otp });
       toast.success(message);
-      console.log(user);
 
       if (!user.isActive) return navigate("/complete-profile");
       if (user.status !== 2) {
