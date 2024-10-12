@@ -6,7 +6,6 @@ import ProjectRow from "./ProjectRow";
 
 function ProjectTable() {
   const { isLoading, projects } = useOwnerProjects();
-  console.log(projects);
   if (isLoading) return <Loading />;
   if (!projects.length) return <Empty resourceName="پروژه" />;
   return (

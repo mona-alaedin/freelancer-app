@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { HiOutlineX } from "react-icons/hi";
 import useOutsideClick from "../hooks/useOutsideClick";
 
